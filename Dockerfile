@@ -17,6 +17,12 @@ RUN apt-get update && \
 
 # Install dependencies from the builder stage
 COPY --from=builder /install /usr/local
+# Remove build and package-management tools from the runtime image
+RUN rm -rf \
+    /usr/local/lib/python3.14/site-packages/pip \
+    /usr/local/lib/python3.14/site-packages/pip-*.dist-info \
+    /usr/local/lib/python3.14/site-packages/setuptools \
+    /usr/local/lib/python3.14/site-packages/setuptools-*.dist-info
 
 # Copy application files
 COPY src/ ./src/
